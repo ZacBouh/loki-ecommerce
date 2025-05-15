@@ -40,3 +40,12 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.product-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+

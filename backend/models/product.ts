@@ -1,4 +1,4 @@
-const mongoose = require('../../config/db');
+import mongoose from '../services/db.js'
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
@@ -13,5 +13,4 @@ const productSchema = new Schema({
     numReviews: Number
 });
 
-const product = mongoose.model('product', productSchema);
-module.exports = product;
+export const Product = mongoose.model('product', productSchema);

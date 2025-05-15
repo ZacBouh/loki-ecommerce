@@ -1,4 +1,4 @@
-const mongoose = require('../../config/db');
+import mongoose from '../services/db.js'
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -8,5 +8,4 @@ const userSchema = new Schema({
     isAdmin: Boolean,
 });
 
-const user = mongoose.model('user', userSchema);
-module.exports = user;
+export const User = mongoose.model('user', userSchema);

@@ -7,7 +7,7 @@ if (!dbUrl){
 }
 try {
     await mongoose.connect(dbUrl)
-    console.log('[DATABASE] Connected to database')
+    console.log('[DATABASE] Connected to database');
 } catch (err) {
     console.log("Error connecting to the database ", err)
 }

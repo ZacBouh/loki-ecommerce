@@ -11,6 +11,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+backend/backend-dist
 dist
 dist-ssr
 *.local

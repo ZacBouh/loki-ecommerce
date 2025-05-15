@@ -1,4 +1,4 @@
-const mongoose = require('../../config/db');
+import mongoose from '../services/db.js'
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
@@ -11,5 +11,4 @@ const orderSchema = new Schema({
     },
 });
 
-const order = mongoose.model('order', orderSchema);
-module.exports = order;
+export const Order = mongoose.model('order', orderSchema);

@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "lib": ["ES2023"],
+        "module": "ESNext",
+        "outDir": "./backend-dist",
+        "rootDir": ".",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        // Custom path alias
+        "baseUrl": ".",
+        "paths": {
+            "@services/*" : ["services/*"]
+        },
+        // Module resolution
+        "moduleResolution": "node"
+    },
+    "include": ["**/*.ts"]
+}

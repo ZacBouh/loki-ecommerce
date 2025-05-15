@@ -1,19 +1,15 @@
-import dotenv from 'dotenv'
-import colors from 'colors'
-import users from './data/users.js'
-import products from './data/products.js'
-import User from './models/userModel.js'
-import Product from './models/productModel.js'
-import Order from './models/orderModel.js'
-import connectDb from './config/db.js'
+import dotenv from "dotenv"
+import { Product } from "./backend-dist/models/product.js"
+import { User } from "./backend-dist/models/user.js"
+import users from "./data/users.js"
+import products from "./data/product.js"
 
 dotenv.config()
 
-connectDb()
 const importData = async () => {
     try {
 
-        await Order.deleteMany()
+        // await Order.deleteMany()
         await Product.deleteMany()
         await User.deleteMany()
 
@@ -27,11 +23,11 @@ const importData = async () => {
 
         await Product.insertMany(sampleProducts)
 
-        console.log('Data imported ! '.green.inverse)
+        console.log('Data imported ! ')
         process.exit();
 
     } catch (error) {
-        console.log(`import error ${error}`.red.inverse)
+        console.log(`import error ${error}`)
         process.exit(1);
     }
 }
@@ -39,15 +35,15 @@ const importData = async () => {
 const destroyData = async () => {
     try {
 
-        await Order.deleteMany()
+        // await Order.deleteMany()
         await Product.deleteMany()
         await User.deleteMany()
 
-        console.log('Data destroyed ! '.green.inverse)
+        console.log('Data destroyed ! ')
         process.exit();
 
     } catch (error) {
-        console.log(`destroyed error ${error}`.red.inverse)
+        console.log(`destroyed error ${error}`)
         process.exit(1);
     }
 }

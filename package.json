@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "backend:build:watch": "tsc -p backend/tsconfig.json --watch",
+    "backend:start:watch": "node --watch backend/backend-dist/index.js",
+    "backend:start": "tsc -p backend/tsconfig.json && node backend/backend-dist/index.js",
+    "backend:dev": "tsc -p backend/tsconfig.json --watch & node --watch backend/backend-dist/index.js"
   },
   "dependencies": {
     "@types/express": "^5.0.1",

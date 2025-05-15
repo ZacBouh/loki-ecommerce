@@ -1,7 +1,6 @@
 import { config } from "dotenv";
-import express, { application } from 'express';
+import express from 'express';
 import session from 'express-session';
-import db from '@services/db';
 config()
 
 const app = express()

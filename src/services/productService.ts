@@ -2,7 +2,7 @@
 
 import type { Product } from "../types/Product"
 
-const API_URL = 'http://localhost:3000/api/products' // à adapter selon ton backend
+const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:4000/api'}/products`
 
 export const ProductService = {
   async fetchProducts(): Promise<Product[]> {
@@ -20,17 +20,4 @@ export const ProductService = {
     }
     return await response.json()
   },
-
-  // Exemples supplémentaires si tu veux ajouter des produits côté admin
-  async createProduct(product: Omit<Product, 'id'>): Promise<Product> {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(product),
-    })
-    if (!response.ok) {
-      throw new Error("Erreur lors de la création du produit.")
-    }
-    return await response.json()
-  }
 }

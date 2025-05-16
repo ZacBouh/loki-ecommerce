@@ -8,6 +8,13 @@ config()
 const app = express()
 const port = process.env.PORT
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const appDistRoot = path.join(__dirname, '..', '..', 'dist') 
+console.log()
+
+app.use(express.static(appDistRoot))
+
 app.get('/api/products', ProductController.getProducts)
 app.get('/api/products/:id', ProductController.getProducts)
 
@@ -20,9 +27,9 @@ app.get('/api/products/:id', ProductController.getProducts)
 
 // Création Commande
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-console.log(path.join(__dirname, '..', '..', 'dist'))
-app.get(/.*/, express.static(path.join(__dirname, '..', '..', 'dist')))
+
+app.get(/.*/, (req, res) => {
+    res.sendFile(path.join(appDistRoot, 'index.html'))  
+})
 
 app.listen(port, () => console.log(`👂 Serveur listening on http://localhost:${port}`))

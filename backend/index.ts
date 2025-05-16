@@ -15,8 +15,8 @@ console.log()
 
 app.use(express.static(appDistRoot))
 
+app.get('/api/products/:id', ProductController.getProduct)
 app.get('/api/products', ProductController.getProducts)
-app.get('/api/products/:id', ProductController.getProducts)
 
 
 // Login User

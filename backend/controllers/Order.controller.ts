@@ -11,8 +11,8 @@ export default class OrderController {
       return;
     }
 
-    if (!address || typeof address !== 'string' || address.trim().length < 5) {
-      res.status(400).json({ message: 'Adresse invalide au moins 5 caractères.' });
+    if (!address || typeof address !== 'string' || address.trim().length < 1) {
+      res.status(400).json({ message: 'Adresse invalide au moins 1 caractère.' });
       return;
     }
 

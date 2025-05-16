@@ -1,47 +1,59 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { OrderService, type Product } from '../services/orderService'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type { Product } from "../types/Product";
+import { OrderService } from "../services/orderService";
+import type { Order } from "../types/Order";
 
 type OrderPageProps = {
-  cartItems: Product[]
-  onOrderComplete: () => void
-}
+  cartItems: Product[];
+  onOrderComplete: () => void;
+};
 
-const OrderPage: React.FC<OrderPageProps> = ({ cartItems, onOrderComplete }) => {
-  const [address, setAddress] = useState('')
-  const [postalCode, setPostalCode] = useState('')
-  const [city, setCity] = useState('')
-  const [country, setCountry] = useState('')
-  const [error, setError] = useState('')
-  const navigate = useNavigate()
+const OrderPage: React.FC<OrderPageProps> = ({
+  cartItems,
+  onOrderComplete,
+}) => {
+  const [address, setAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0)
+  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if (!address.trim() || !postalCode.trim() || !city.trim() || !country.trim()) {
-      return alert('Veuillez remplir tous les champs de livraison.')
+    if (
+      !address.trim() ||
+      !postalCode.trim() ||
+      !city.trim() ||
+      !country.trim()
+    ) {
+      return alert("Veuillez remplir tous les champs de livraison.");
     }
 
-    const orderData = {
-      address,
-      postalCode,
-      city,
-      country,
+    const order: Order = {
+      user: "defaultUserId", // ou récupéré via le contexte utilisateur si tu as un système d'auth
+      adress: address, // attention : ton backend utilise "adress" et non "address"
+      price: total,
+      dateOrder: new Date(),
       products: cartItems,
-    }
+    };
 
-    const result = await OrderService.placeOrder(orderData)
+    const result = await OrderService.createOrder(order);
 
     if (result.success) {
-      alert('Commande validée avec succès !')
-      onOrderComplete()
-      navigate('/produits')
+      alert("Commande validée avec succès !");
+      onOrderComplete();
+      navigate("/produits");
     } else {
-      setError(result.message || 'Erreur lors de la validation de la commande.')
+      setError(
+        result.message || "Erreur lors de la validation de la commande."
+      );
     }
-  }
+  };
 
   return (
     <div className="order-page">
@@ -104,7 +116,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ cartItems, onOrderComplete }) => 
         <button type="submit">Valider la commande</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default OrderPage
+export default OrderPage;

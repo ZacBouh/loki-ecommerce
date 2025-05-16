@@ -1,11 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
-type Product = {
-  id: number
-  name: string
-  price: number
-}
+import type { Product } from '../types/Product'
 
 type CartProps = {
   cartItems: Product[]
@@ -14,7 +9,7 @@ type CartProps = {
 
 const Cart: React.FC<CartProps> = ({ cartItems, onRemove }) => {
   // Regroupe les produits par ID avec quantité
-  const groupedItems = cartItems.reduce((acc: Record<number, { product: Product; quantity: number }>, item) => {
+  const groupedItems = cartItems.reduce((acc: Record<string, { product: Product; quantity: number }>, item) => {
     if (acc[item.id]) {
       acc[item.id].quantity += 1
     } else {

@@ -8,25 +8,17 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ProductService } from "./services/productService";
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-};
+import type { Product } from "./types/Product";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
-   const [products, setProducts] = useState<Product[]>([
-    { id: 1, name: "Épée du chasseur", price: 100 },
-    { id: 2, name: "Potion de soin", price: 25 },
-    { id: 3, name: "Armure en écailles", price: 250 },
-  ]);
+   const [products, setProducts] = useState<Product[]>([]);
 
    useEffect(() => {
     const loadProducts = async () => {
       try {
         const data = await ProductService.fetchProducts()
-        setProducts(data)
+        setProducts(data as Product[])
       } catch (err) {
         console.error("Erreur de chargement des produits :", err)
       }
@@ -55,6 +47,7 @@ function App() {
           path="/produits"
           element={<Products products={products} addToCart={addToCart} />}
         />
+        <Route path="/produit/:id" element={<ProductDetail />} />
         <Route
           path="/panier"
           element={<Cart cartItems={cart} onRemove={removeFromCart} />}

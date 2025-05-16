@@ -1,10 +1,6 @@
 // src/services/ProductService.ts
 
-export type Product = {
-  id: number
-  name: string
-  price: number
-}
+import type { Product } from "../types/Product"
 
 const API_URL = 'http://localhost:3000/api/products' // à adapter selon ton backend
 

@@ -13,7 +13,7 @@ export const ProductService = {
     return await response.json()
   },
 
-  async fetchProductById(id: number): Promise<Product> {
+  async fetchProductById(id: string): Promise<Product> {
     const response = await fetch(`${API_URL}/${id}`)
     if (!response.ok) {
       throw new Error(`Produit avec l'id ${id} introuvable.`)

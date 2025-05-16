@@ -14,7 +14,7 @@ const ProductDetail: React.FC = () => {
     const fetchProduct = async () => {
       try {
         if (!id) return
-        const prod = await ProductService.fetchProductById(Number(id))
+        const prod = await ProductService.fetchProductById(id)
         setProduct(prod)
       } catch (err) {
         setError('Produit introuvable.')

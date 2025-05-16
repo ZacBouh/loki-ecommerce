@@ -22,28 +22,38 @@ const Cart: React.FC<CartProps> = ({ cartItems, onRemove }) => {
 
   return (
     <div className="cart-page">
-      <h2>Votre panier</h2>
-      {cartItems.length === 0 ? (
-        <p>Votre panier est vide.</p>
+  <h2>Votre panier</h2>
+  {cartItems.length === 0 ? (
+    <p>Votre panier est vide.</p>
+  ) : (
+    <>
+      <ul>
+        {Object.values(groupedItems).map(({ product, quantity }) => (
+          <li key={product._id}>
+            {product.name} x {quantity} — {product.price * quantity + '€'}
+            <button onClick={() => onRemove(product._id)} style={{ marginLeft: 10 }}>
+              Retirer une unité
+            </button>
+          </li>
+        ))}
+      </ul>
+      <h3>Total : {total} z</h3>
+
+      {sessionStorage.getItem('username') ? (
+        <Link to="/commander">
+          <button>Passer la commande</button>
+        </Link>
       ) : (
         <>
-          <ul>
-            {Object.values(groupedItems).map(({ product, quantity }) => (
-              <li key={product._id}>
-                {product.name} x {quantity} — {product.price * quantity + '€'} 
-                <button onClick={() => onRemove(product._id)} style={{ marginLeft: 10 }}>
-                  Retirer une unité
-                </button>
-              </li>
-            ))}
-          </ul>
-          <h3>Total : {total} z</h3>
-          <Link to="/commander">
-            <button>Passer la commande</button>
+          <p style={{ color: 'red' }}>Veuillez vous connecter pour passer commande.</p>
+          <Link to="/login">
+            <button>Se connecter</button>
           </Link>
         </>
       )}
-    </div>
+    </>
+  )}
+</div>
   )
 }
 

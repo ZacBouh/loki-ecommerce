@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Product } from "../types/Product";
-import { OrderService } from "../services/orderService";
-import type { Order } from "../types/Order";
+import { OrderService } from "../services/orderService";  
 
 type OrderPageProps = {
   cartItems: Product[];
@@ -14,11 +13,17 @@ const OrderPage: React.FC<OrderPageProps> = ({
   onOrderComplete,
 }) => {
   const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const groupedItems = cartItems.reduce((acc: Record<string, { product: Product; quantity: number }>, item) => {
+      if (acc[item._id]) {
+        acc[item._id].quantity += 1
+      } else {
+        acc[item._id] = { product: item, quantity: 1 }
+      }
+      return acc
+    }, {})
 
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
@@ -26,20 +31,16 @@ const OrderPage: React.FC<OrderPageProps> = ({
     e.preventDefault();
 
     if (
-      !address.trim() ||
-      !postalCode.trim() ||
-      !city.trim() ||
-      !country.trim()
+      !address.trim()
     ) {
       return alert("Veuillez remplir tous les champs de livraison.");
     }
 
-    const order: Order = {
-      user: "defaultUserId", // ou récupéré via le contexte utilisateur si tu as un système d'auth
-      adress: address, // attention : ton backend utilise "adress" et non "address"
+    const order: any = {
+      userId: "defaultUserId", // ou récupéré via le contexte utilisateur si tu as un système d'auth
+      address: address, // attention : ton backend utilise "adress" et non "address"
       price: total,
-      dateOrder: new Date(),
-      products: cartItems,
+      items: groupedItems,
     };
 
     const result = await OrderService.createOrder(order);
@@ -70,48 +71,18 @@ const OrderPage: React.FC<OrderPageProps> = ({
           />
         </div>
 
-        <div>
-          <label>Code postal :</label>
-          <input
-            type="text"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Ville :</label>
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Pays :</label>
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            required
-          />
-        </div>
-
         {error && <p className="error">{error}</p>}
 
         <h3>Récapitulatif :</h3>
         <ul>
-          {cartItems.map((item, i) => (
-            <li key={i}>
-              {item.name} - {item.price} z
-            </li>
-          ))}
-        </ul>
+  {Object.values(groupedItems).map(({ product, quantity }) => (
+    <li key={product._id}>
+      {product.name} x {quantity} — {product.price * quantity} z
+    </li>
+  ))}
+</ul>
 
-        <h4>Total : {total} z</h4>
+        <h4>Total : {total} €</h4>
 
         <button type="submit">Valider la commande</button>
       </form>

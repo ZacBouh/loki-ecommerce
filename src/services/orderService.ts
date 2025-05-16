@@ -4,6 +4,7 @@ const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:4000/api'}/
 
 export const OrderService = {
   async createOrder(order: Order): Promise<any> {
+    console.log(order)
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {

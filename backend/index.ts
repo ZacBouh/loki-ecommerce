@@ -5,6 +5,8 @@ import AuthController from "./controllers/AuthController.js";
 import authMiddleware from "./middlewares/authMiddleware.js";
 import path from 'path'
 import { fileURLToPath } from "url";
+import OrderController from "./controllers/Order.controller.js";
+
 import session from "express-session";
 config()
 
@@ -36,7 +38,7 @@ app.get('/api/products/:id', ProductController.getProduct)
 app.post('/api/auth/login', AuthController.loginUser)
 
 // Création Commande
-
+app.post('/api/order', OrderController.createOrder);
 
 app.get(/.*/, (req, res) => {
     res.sendFile(path.join(appDistRoot, 'index.html'))  

@@ -1,38 +1,37 @@
-export type Product = {
-  id: number
-  name: string
-  price: number
-}
+import type { Order } from "../types/Order"
 
-export type OrderData = {
-  address: string
-  postalCode: string
-  city: string
-  country: string
-  products: Product[]
-}
-
-const API_URL = 'http://localhost:3000/api/orders' // adapte selon ton backend
+const API_URL = 'http://localhost:3000/api/orders'
 
 export const OrderService = {
-  async placeOrder(orderData: OrderData): Promise<{ success: boolean; message?: string }> {
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      })
+  async createOrder(order: Order): Promise<any> {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(order),
+    })
 
-      if (!response.ok) {
-        const error = await response.json()
-        return { success: false, message: error.message || 'Erreur lors de la commande' }
-      }
-
-      return { success: true }
-    } catch (error) {
-      return { success: false, message: (error as Error).message }
+    if (!response.ok) {
+      throw new Error("Erreur lors de la création de la commande.")
     }
+
+    return await response.json()
   },
+
+  async fetchOrders(): Promise<Order[]> {
+    const response = await fetch(API_URL)
+    if (!response.ok) {
+      throw new Error("Erreur lors de la récupération des commandes.")
+    }
+    return await response.json()
+  },
+
+  async fetchOrderById(id: string): Promise<Order> {
+    const response = await fetch(`${API_URL}/${id}`)
+    if (!response.ok) {
+      throw new Error(`Commande avec l'id ${id} introuvable.`)
+    }
+    return await response.json()
+  }
 }

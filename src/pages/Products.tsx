@@ -11,7 +11,7 @@ const Products: React.FC<ProductsProps> = ({ products, addToCart }) => {
   return (
     <div className="product-list">
       {products.map((product) => (
-        <div key={product.id} className="card">
+        <div key={product._id} className="card">
           <img src={product.image} alt={product.name} style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }} />
           <h2>{product.name}</h2>
           <p><strong>Marque :</strong> {product.brand}</p>
@@ -22,7 +22,7 @@ const Products: React.FC<ProductsProps> = ({ products, addToCart }) => {
           <p><strong>Prix :</strong> {product.price} z</p>
 
           <button onClick={() => addToCart(product)}>Ajouter au panier</button>
-          <Link to={`/produit/${product.id}`} className="details-link">Voir les détails</Link>
+          <Link to={`/produit/${product._id}`} className="details-link">Voir les détails</Link>
         </div>
       ))}
     </div>

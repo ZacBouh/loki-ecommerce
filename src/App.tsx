@@ -18,6 +18,7 @@ function App() {
     const loadProducts = async () => {
       try {
         const data = await ProductService.fetchProducts()
+        console.log(data)
         setProducts(data as Product[])
       } catch (err) {
         console.error("Erreur de chargement des produits :", err)
@@ -32,11 +33,14 @@ function App() {
     setCart([...cart, product]);
   };
 
-  const removeFromCart = (index: number) => {
+  const removeFromCart = (id: string) => {
+  const index = cart.findIndex((item) => item._id === id);
+  if (index !== -1) {
     const newCart = [...cart];
-    newCart.splice(index, 1);
+    newCart.splice(index, 1); // retire la première occurrence
     setCart(newCart);
-  };
+  }
+};
 
   return (
     <>

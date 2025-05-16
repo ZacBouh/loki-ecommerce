@@ -4,16 +4,16 @@ import type { Product } from '../types/Product'
 
 type CartProps = {
   cartItems: Product[]
-  onRemove: (productId: number) => void // on supprime par id produit
+  onRemove: (productId: string) => void // on supprime par id produit
 }
 
 const Cart: React.FC<CartProps> = ({ cartItems, onRemove }) => {
   // Regroupe les produits par ID avec quantité
   const groupedItems = cartItems.reduce((acc: Record<string, { product: Product; quantity: number }>, item) => {
-    if (acc[item.id]) {
-      acc[item.id].quantity += 1
+    if (acc[item._id]) {
+      acc[item._id].quantity += 1
     } else {
-      acc[item.id] = { product: item, quantity: 1 }
+      acc[item._id] = { product: item, quantity: 1 }
     }
     return acc
   }, {})
@@ -29,9 +29,9 @@ const Cart: React.FC<CartProps> = ({ cartItems, onRemove }) => {
         <>
           <ul>
             {Object.values(groupedItems).map(({ product, quantity }) => (
-              <li key={product.id}>
-                {product.name} x {quantity} — {product.price * quantity} z
-                <button onClick={() => onRemove(product.id)} style={{ marginLeft: 10 }}>
+              <li key={product._id}>
+                {product.name} x {quantity} — {product.price * quantity + '€'} 
+                <button onClick={() => onRemove(product._id)} style={{ marginLeft: 10 }}>
                   Retirer une unité
                 </button>
               </li>

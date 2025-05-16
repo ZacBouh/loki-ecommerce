@@ -1,5 +1,5 @@
 export interface Product {
-  id: number // ou _id: string, selon ce que ton API renvoie
+  _id: string
   name: string
   image: string
   description: string

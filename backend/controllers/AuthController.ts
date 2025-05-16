@@ -19,7 +19,8 @@ export default class AuthController {
         if (!validPassword){
             res.status(401).json({error: "Invalid password"})
             return
-        } 
+        }
+        req.session.user = user.toObject() 
         res.status(200).json({
             user : {
                 id: user.id,

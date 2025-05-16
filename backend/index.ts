@@ -2,8 +2,10 @@ import { config } from "dotenv";
 import express from 'express';
 import ProductController from "./controllers/ProductController.js";
 import AuthController from "./controllers/AuthController.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 import path from 'path'
 import { fileURLToPath } from "url";
+import session from "express-session";
 config()
 
 const app = express()
@@ -16,6 +18,15 @@ console.log()
 
 app.use(express.static(appDistRoot))
 app.use(express.json())
+app.use(session({
+    secret: "SessionSecret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60
+    }
+}))
 
 // Produits 
 app.get('/api/products', ProductController.getProducts)

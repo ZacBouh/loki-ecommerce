@@ -8,4 +8,6 @@ const userSchema = new Schema({
     isAdmin: Boolean,
 });
 
+export type UserType = mongoose.InferSchemaType<typeof userSchema> & { _id: mongoose.Types.ObjectId}
+
 export const User = mongoose.model('user', userSchema);

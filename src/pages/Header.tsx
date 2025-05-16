@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({ cartCount }) => {
   const username = sessionStorage.getItem('username')
 
   const handleLogout = () => {
-    sessionStorage.removeItem('username')
+    sessionStorage.clear();
     navigate('/produits') // redirige vers produits après déconnexion
     window.location.reload() // recharge pour que l’état reflète le changement
   }

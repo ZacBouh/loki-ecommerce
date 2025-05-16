@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { login } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,10 +18,16 @@ const Login: React.FC = () => {
       return;
     }
 
-    const data = await login(email, password);
-    sessionStorage.setItem("username", data.username);
-     sessionStorage.setItem("idUser", data.idUser);
-    window.location.reload();
+    try {
+      const data = await login(email, password);
+      sessionStorage.setItem("username", data.user.name);
+      sessionStorage.setItem("idUser", data.user.id);
+
+      // ✅ Redirection après connexion réussie
+      navigate("/produits");
+    } catch (err) {
+      setError("Identifiants invalides ou erreur serveur.");
+    }
   };
 
   return (

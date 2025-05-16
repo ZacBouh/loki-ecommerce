@@ -11,8 +11,8 @@ export default class OrderController {
       return;
     }
 
-    if (!address || typeof address !== 'string' || address.trim().length < 1) {
-      res.status(400).json({ message: 'Adresse invalide.' });
+    if (!address || typeof address !== 'string' || address.trim().length < 5) {
+      res.status(400).json({ message: 'Adresse invalide au moins 5 caractères.' });
       return;
     }
 
@@ -21,7 +21,6 @@ export default class OrderController {
       return;
     }
 
-    // ✅ Conversion en tableau
     const formattedItems = Object.entries(items).map(([_, item]: any) => ({
       product: item.product._id || item.product,
       quantity: item.quantity
@@ -33,7 +32,7 @@ export default class OrderController {
     }
 
     if (typeof price !== 'number' || price <= 0) {
-      res.status(400).json({ message: 'Prix invalide.' });
+      res.status(400).json({ message: 'Prix invalide 0 impossible.' });
       return;
     }
 

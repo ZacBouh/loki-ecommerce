@@ -17,6 +17,7 @@ const Login: React.FC = () => {
 
     const data = await login(email, password);
     sessionStorage.setItem("username", data.username);
+     sessionStorage.setItem("idUser", data.idUser);
     window.location.reload();
   };
 

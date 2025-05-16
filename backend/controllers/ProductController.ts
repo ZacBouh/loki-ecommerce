@@ -4,16 +4,12 @@ import { Types } from "mongoose";
 
 export default class ProductController {
 
-    static logger(...args : any){
-        
-    }
-
-    static getProducts : RequestHandler = async (req , res , next) => {
+    static getProducts : RequestHandler = async ( _, res ) => {
         const products = await Product.find().exec()
         res.json(products)
     }
 
-    static getProduct : RequestHandler = async (req, res, next) => {
+    static getProduct : RequestHandler = async (req, res) => {
         const productId = req.params.id
         if(!Types.ObjectId.isValid(productId)){
             res.status(400).json({error : 'Invalid product Id'})

@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import express from 'express';
 import ProductController from "./controllers/ProductController.js";
+import AuthController from "./controllers/AuthController.js";
 import path from 'path'
 import { fileURLToPath } from "url";
 config()
@@ -14,16 +15,14 @@ const appDistRoot = path.join(__dirname, '..', '..', 'dist')
 console.log()
 
 app.use(express.static(appDistRoot))
+app.use(express.json())
 
+// Produits 
 app.get('/api/products', ProductController.getProducts)
 app.get('/api/products/:id', ProductController.getProduct)
 
-
 // Login User
-
-// Produits 
-// tous les produits
-// 1 seul produit
+app.post('/api/auth/login', AuthController.loginUser)
 
 // Création Commande
 

@@ -2,9 +2,9 @@ import mongoose from '../services/db.js'
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    name: String,
-    email: String,
-    password: String,
+    name: {type: String, required: true},
+    email: {type: String, required: true},
+    password: {type: String, required: true},
     isAdmin: Boolean,
 });
 
